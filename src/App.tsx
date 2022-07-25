@@ -1,12 +1,19 @@
 import Movies from './pages/movies.page';
-import { getData } from './utils/getData';
-import { useEffect, useState, createContext } from 'react';
+import Theaters from './pages/theaters.page';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TopBar from './components/top-bar.component';
 
 function App() {
   return (
-    <div>
-      <Movies />
-    </div>
+    <>
+      <TopBar />
+      <Router>
+        <Routes>
+          <Route path='/' element={<Movies />} />
+          <Route path='/theaters' element={<Theaters />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
