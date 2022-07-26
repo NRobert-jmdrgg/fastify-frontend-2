@@ -1,3 +1,4 @@
+import Movie from './pages/movie.page';
 import Movies from './pages/movies.page';
 import Theaters from './pages/theaters.page';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Movies />} />
           <Route path='/theaters' element={<Theaters />} />
+          <Route path='/movie/:id' element={<Movie />} />
         </Routes>
       </Router>
     </>

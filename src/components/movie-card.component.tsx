@@ -10,6 +10,7 @@ import './styles/movie-card.styles.scss';
 
 type movieProps = {
   props: {
+    id: string;
     poster: string;
     title: string;
     year: number;

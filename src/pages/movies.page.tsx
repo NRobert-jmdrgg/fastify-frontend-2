@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import MoviePagination from '../components/pagination.component';
 
 type Movie = {
+  _id: string;
   plot: string;
   genres: string[];
   runtime: number;
@@ -65,6 +66,7 @@ const Movies = () => {
             return (
               <MovieCard
                 props={{
+                  id: movie._id,
                   poster: movie.poster,
                   title: movie.title,
                   year: movie.year,

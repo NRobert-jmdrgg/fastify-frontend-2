@@ -16,7 +16,7 @@ export function CitySelector({ labels }: TheaterSelectorProps) {
       disablePortal
       id='combo-box-demo'
       options={labels}
-      sx={{ width: 300, marginTop: 5 }}
+      sx={{ width: 300, marginTop: 5, marginX: 3 }}
       renderInput={(params) => <TextField {...params} label='city' />}
       onChange={(event: any, newValue: string | null) => {
         setCity(newValue);
@@ -33,7 +33,7 @@ export function StateSelector({ labels }: TheaterSelectorProps) {
       disablePortal
       id='combo-box-demo'
       options={labels}
-      sx={{ width: 300, marginTop: 5 }}
+      sx={{ width: 300, marginTop: 5, marginX: 3 }}
       renderInput={(params) => <TextField {...params} label='state' />}
       onChange={(event: any, newValue: string | null) => {
         setState(newValue);
@@ -50,7 +50,7 @@ export function StreetSelector({ labels }: TheaterSelectorProps) {
       disablePortal
       id='combo-box-demo'
       options={labels}
-      sx={{ width: 300, marginTop: 5 }}
+      sx={{ width: 300, marginTop: 5, marginX: 3 }}
       renderInput={(params) => <TextField {...params} label='street' />}
       onChange={(event: any, newValue: string | null) => {
         setStreet(newValue);
