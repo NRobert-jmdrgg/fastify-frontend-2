@@ -5,7 +5,7 @@ import {
   createTheme,
   ThemeProvider,
 } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
 import './styles/movie-card.styles.scss';
 
 type movieProps = {
@@ -39,8 +39,15 @@ const infoTheme = createTheme({
 });
 
 const MovieCard = ({ props }: movieProps) => {
+  let navigate = useNavigate();
+
+  const routeChange = () => {
+    let path = 'movie/' + props.id;
+    navigate(path);
+  };
+
   return (
-    <Grid item xs='auto'>
+    <Grid item xs='auto' onClick={routeChange}>
       <Paper elevation={3}>
         <img
           className='movie-poster'

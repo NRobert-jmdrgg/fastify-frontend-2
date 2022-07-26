@@ -4,7 +4,7 @@ import { getData } from '../utils/getData';
 import { useState, useEffect } from 'react';
 import MoviePagination from '../components/pagination.component';
 
-type Movie = {
+export type MovieProps = {
   _id: string;
   plot: string;
   genres: string[];
@@ -42,10 +42,10 @@ type Movie = {
 };
 
 const Movies = () => {
-  const [movieList, setMovieList] = useState<Movie[]>([]);
+  const [movieList, setMovieList] = useState<MovieProps[]>([]);
   useEffect(() => {
     const fetchMovies = async () => {
-      const movies = await getData<Movie[]>(
+      const movies = await getData<MovieProps[]>(
         'http://localhost:3002/api/movies/12'
       );
       setMovieList(movies);
