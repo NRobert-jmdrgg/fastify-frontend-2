@@ -5,17 +5,23 @@ import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export default function MoviePagination() {
+type MoviePaginationProps = {
+  count: number;
+};
+
+export default function MoviePagination({ count }: MoviePaginationProps) {
   return (
     <Stack spacing={2}>
       <Pagination
-        count={10}
+        count={count}
         renderItem={(item) => (
           <PaginationItem
             components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
             {...item}
           />
         )}
+        // TODO click takes you to a different page based on the number
+        // onClick={}
       />
     </Stack>
   );

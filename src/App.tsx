@@ -15,16 +15,24 @@ export type MovieProps = {
 };
 
 function App() {
+  const maxItems = 15;
+
   const [movieList, setMovieList] = useState<MovieProps[]>([]);
+  const [movieCount, setMovieCount] = useState(0);
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchData = async () => {
       const movies = await getData<MovieProps[]>(
-        'http://localhost:3002/api/movies/12'
+        'http://localhost:3002/api/movies/display/0/15'
       );
+      const count = await getData<number>(
+        'http://localhost:3002/api/movies/count'
+      );
+
       setMovieList(movies);
+      setMovieCount(count);
     };
-    fetchMovies();
+    fetchData();
   }, []);
 
   return (
@@ -32,7 +40,15 @@ function App() {
       <TopBar />
       <Router>
         <Routes>
-          <Route path='/' element={<Movies movieList={movieList} />} />
+          <Route
+            path='/'
+            element={
+              <Movies
+                movieList={movieList}
+                count={Math.ceil(movieCount / maxItems)}
+              />
+            }
+          />
           <Route path='/theaters' element={<Theaters />} />
           <Route path='/movie/:movieId' element={<Movie />} />
         </Routes>

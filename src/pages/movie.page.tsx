@@ -94,6 +94,8 @@ const Movie = () => {
     fetchMovie();
   }, [movieId]);
 
+  // ezekbol kulon komponens kell majd
+
   return (
     <Container sx={{ display: 'flex' }}>
       <Box>
@@ -124,9 +126,14 @@ const Movie = () => {
           Awards: {movie.awards.text}
         </Typography>
         <Typography variant='body1' component='p'>
-          IMDB: {movie.imdb.rating}
+          IMDB Rating: {movie.imdb.rating} Votes: {movie.imdb.votes}
         </Typography>
         <IMDBRating rating={movie.imdb.rating} />
+        <Typography variant='body1' component='p'>
+          {movie.metacritic !== undefined
+            ? `metacritic score: ${movie.metacritic}`
+            : ''}
+        </Typography>
         <Typography variant='body1' component='p'>
           {movie.fullplot}
         </Typography>

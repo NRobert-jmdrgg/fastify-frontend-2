@@ -5,9 +5,10 @@ import { MovieProps } from '../App';
 
 type MovieListProps = {
   movieList: MovieProps[];
+  count: number;
 };
 
-const Movies = ({ movieList }: MovieListProps) => {
+const Movies = ({ movieList, count }: MovieListProps) => {
   return (
     <>
       <Container
@@ -41,7 +42,7 @@ const Movies = ({ movieList }: MovieListProps) => {
           marginBottom: 3,
         }}
       >
-        <MoviePagination />
+        <MoviePagination count={count} />
       </Box>
     </>
   );
