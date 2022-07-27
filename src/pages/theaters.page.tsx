@@ -1,4 +1,4 @@
-import { getData } from '../utils/getData';
+import getData from '../utils/getData';
 import { useState, useEffect } from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import {
