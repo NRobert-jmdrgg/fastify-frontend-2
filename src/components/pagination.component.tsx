@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ChangeEvent } from 'react';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
@@ -7,21 +7,28 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 type MoviePaginationProps = {
   count: number;
+  setPageNumber: (n: number) => void;
 };
 
-export default function MoviePagination({ count }: MoviePaginationProps) {
+export default function MoviePagination({
+  count,
+  setPageNumber,
+}: MoviePaginationProps) {
   return (
     <Stack spacing={2}>
       <Pagination
         count={count}
-        renderItem={(item) => (
-          <PaginationItem
-            components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-            {...item}
-          />
-        )}
-        // TODO click takes you to a different page based on the number
-        // onClick={}
+        onChange={(event: ChangeEvent<unknown>, page: number) =>
+          setPageNumber(page)
+        }
+        renderItem={(item) => {
+          return (
+            <PaginationItem
+              components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+              {...item}
+            />
+          );
+        }}
       />
     </Stack>
   );

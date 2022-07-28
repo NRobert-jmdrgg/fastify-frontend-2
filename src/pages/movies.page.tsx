@@ -1,14 +1,15 @@
 import { Container, Grid, Box } from '@mui/material';
 import MovieCard from '../components/movie-card.component';
-import MoviePagination from '../components/pagination.component';
 import { MovieProps } from '../App';
+import { ReactNode } from 'react';
 
 type MovieListProps = {
   movieList: MovieProps[];
-  count: number;
+
+  Pagination: ReactNode;
 };
 
-const Movies = ({ movieList, count }: MovieListProps) => {
+const Movies = ({ movieList, Pagination }: MovieListProps) => {
   return (
     <>
       <Container
@@ -42,7 +43,7 @@ const Movies = ({ movieList, count }: MovieListProps) => {
           marginBottom: 3,
         }}
       >
-        <MoviePagination count={count} />
+        {Pagination}
       </Box>
     </>
   );

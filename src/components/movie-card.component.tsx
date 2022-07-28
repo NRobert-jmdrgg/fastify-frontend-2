@@ -11,7 +11,9 @@ import './styles/movie-card.styles.scss';
 type movieProps = {
   props: {
     id: string;
-    poster: string;
+    poster?:
+      | string
+      | 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Black_colour.jpg/220px-Black_colour.jpg';
     title: string;
     year: number;
     runtime: number;
@@ -42,21 +44,14 @@ const MovieCard = ({ props }: movieProps) => {
   let navigate = useNavigate();
 
   const routeChange = () => {
-    let path = 'movie/' + props.id;
+    let path = '../movie/' + props.id;
     navigate(path);
   };
 
   return (
     <Grid item xs='auto' onClick={routeChange}>
       <Paper elevation={3}>
-        <img
-          className='movie-poster'
-          src={
-            props.poster ||
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Black_colour.jpg/220px-Black_colour.jpg'
-          }
-          alt={props.title}
-        />
+        <img className='movie-poster' src={props.poster} alt={props.title} />
         <ThemeProvider theme={titleTheme}>
           <Typography variant='body1' component='h4' marginX={2}>
             {props.title}
