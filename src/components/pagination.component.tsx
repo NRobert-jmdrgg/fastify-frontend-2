@@ -7,20 +7,18 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 type MoviePaginationProps = {
   count: number;
-  setPageNumber: (n: number) => void;
+  setPage: (n: number) => void;
 };
 
 export default function MoviePagination({
   count,
-  setPageNumber,
+  setPage,
 }: MoviePaginationProps) {
   return (
     <Stack spacing={2}>
       <Pagination
         count={count}
-        onChange={(event: ChangeEvent<unknown>, page: number) =>
-          setPageNumber(page)
-        }
+        onChange={(event: ChangeEvent<unknown>, page: number) => setPage(page)}
         renderItem={(item) => {
           return (
             <PaginationItem
