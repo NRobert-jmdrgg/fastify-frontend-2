@@ -21,7 +21,7 @@ export type MovieProps = {
 };
 
 function App() {
-  const maxItems = 15;
+  const maxItemsDisplayed = 15;
 
   const [movieList, setMovieList] = useState<MovieProps[]>([]);
   const [movieCount, setMovieCount] = useState(0);
@@ -29,7 +29,7 @@ function App() {
   const [lowerBound, setLowerBound] = useState(0);
 
   const calculatePageNumbers = (pageNumber: number) => {
-    setLowerBound(0 + 16 * (pageNumber - 1));
+    setLowerBound(maxItemsDisplayed * (pageNumber - 1));
   };
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function App() {
                 movieList={movieList}
                 Pagination={
                   <MoviePagination
-                    count={Math.ceil(movieCount / maxItems)}
+                    count={Math.ceil(movieCount / maxItemsDisplayed)}
                     setPageNumber={setPageNumber}
                   />
                 }
