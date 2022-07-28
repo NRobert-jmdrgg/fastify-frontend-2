@@ -1,7 +1,8 @@
 import { Container, Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import getData from '../utils/getData';
-import { useState, useEffect } from 'react';
+import fixBrokenImageLink from '../utils/fixBrokenImageLink';
+import { useState, useEffect, SyntheticEvent } from 'react';
 import './styles/movie.styles.scss';
 import IMDBRating from '../components/rating.component';
 
@@ -94,15 +95,19 @@ const Movie = () => {
     fetchMovie();
   }, [movieId]);
 
-  // ezekbol kulon komponens kell majd
-
   return (
     <Container sx={{ display: 'flex' }}>
       <Box>
         <img
           className='movie-poster-image'
-          src={movie.poster}
+          src={
+            movie.poster ||
+            'https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584296.jpg'
+          }
           alt={movie.title}
+          onError={(e: SyntheticEvent<HTMLImageElement, Event>) =>
+            fixBrokenImageLink(e)
+          }
         />
         <Typography variant='body2' component='p' textAlign='center'>
           {movie.year} - {movie.runtime} minutes

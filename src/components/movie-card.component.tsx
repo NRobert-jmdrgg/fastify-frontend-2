@@ -7,13 +7,14 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './styles/movie-card.styles.scss';
+import fixBrokenImageLink from '../utils/fixBrokenImageLink';
+import { SyntheticEvent } from 'react';
 
 type movieProps = {
   props: {
     id: string;
-    poster?:
-      | string
-      | 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Black_colour.jpg/220px-Black_colour.jpg';
+    poster?: string;
+
     title: string;
     year: number;
     runtime: number;
@@ -51,7 +52,17 @@ const MovieCard = ({ props }: movieProps) => {
   return (
     <Grid item xs='auto' onClick={routeChange}>
       <Paper elevation={3}>
-        <img className='movie-poster' src={props.poster} alt={props.title} />
+        <img
+          className='movie-poster'
+          src={
+            props.poster ||
+            'https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584296.jpg'
+          }
+          alt={props.title}
+          onError={(e: SyntheticEvent<HTMLImageElement, Event>) =>
+            fixBrokenImageLink(e)
+          }
+        />
         <ThemeProvider theme={titleTheme}>
           <Typography variant='body1' component='h4' marginX={2}>
             {props.title}
