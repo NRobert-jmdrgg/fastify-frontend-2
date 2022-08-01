@@ -3,7 +3,7 @@ import MovieCard from '../components/movie-card.component';
 import MoviePagination from '../components/pagination.component';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import getData from '../utils/getData';
+import axios from 'axios';
 
 type MovieProps = {
   _id: string;
@@ -21,7 +21,7 @@ const Movies = () => {
   const [movieList, setMovieList] = useState<MovieProps[]>([]);
   const [movieCount, setMovieCount] = useState(0);
   const [pageNumber, setPageNumber] = useState(Number(num));
-  const [lowerBound, setLowerBound] = useState(0);
+  const [lowerBound, setLowerBound] = useState(Number(num));
 
   const calculatePageNumbers = (pageNumber: number) => {
     setLowerBound(maxItemsDisplayed * (pageNumber - 1));
@@ -29,10 +29,10 @@ const Movies = () => {
 
   useEffect(() => {
     const fetchCount = async () => {
-      const count = await getData<number>(
+      const response = await axios.get<number>(
         'http://localhost:3002/api/movies/count'
       );
-      setMovieCount(count);
+      setMovieCount(response.data);
     };
     fetchCount();
   }, []);
@@ -43,11 +43,11 @@ const Movies = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const movies = await getData<MovieProps[]>(
+      const response = await axios.get<MovieProps[]>(
         `http://localhost:3002/api/movies/display/${lowerBound}`
       );
 
-      setMovieList(movies);
+      setMovieList(response.data);
     };
     fetchData();
   }, [lowerBound]);
@@ -91,6 +91,7 @@ const Movies = () => {
         }}
       >
         <MoviePagination
+          pageNumber={pageNumber}
           count={Math.ceil(movieCount / maxItemsDisplayed)}
           setPage={setPage}
         />

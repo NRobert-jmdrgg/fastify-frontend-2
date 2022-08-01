@@ -1,41 +1,63 @@
-import getData from '../utils/getData';
 import { useState, useEffect } from 'react';
-import { Container, Box, Typography } from '@mui/material';
-import {
-  CitySelector,
-  StateSelector,
-  StreetSelector,
-} from '../components/theater-selector.component';
+import { Container, Box } from '@mui/material';
+import Selector from '../components/theater-selector.component';
 import Map from '../components/map.component';
-import SearchButton from '../components/button.component';
+import axios from 'axios';
 
-type Theater = {
-  theaterId: number;
-  location: {
-    address: {
-      street1: string;
-      city: string;
-      state: string;
-      zipcode: string;
-    };
-    geo: {
-      type: string;
-      coordinates: number[];
-    };
-  };
+type Geo = {
+  coordinates: number[];
 };
 
 const Theaters = () => {
-  const [theaters, setTheaters] = useState<Theater[]>([]);
+  const [stateList, setStateList] = useState<string[]>([]);
+  const [cityList, setCityList] = useState<string[]>([]);
+  const [streetList, setStreetList] = useState<string[]>([]);
+  const [usState, setUsState] = useState<string | null>(null);
+  const [city, setCity] = useState<string | null>(null);
+  const [street, setStreet] = useState<string | null>(null);
+  const [geolocation, setGeolocation] = useState<Geo[]>([]);
+
   useEffect(() => {
-    const fetchTheaters = async () => {
-      const newTheaters = await getData<Theater[]>(
-        'http://localhost:3002/api/theaters/all'
+    const fetchStates = async () => {
+      const response = await axios.get<string[]>(
+        'http://localhost:3002/api/theaters/states'
       );
-      setTheaters(newTheaters);
+      setStateList(response.data);
     };
-    fetchTheaters();
+    fetchStates();
   }, []);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      const response = await axios.get<string[]>(
+        `http://localhost:3002/api/theaters/state/${usState}`
+      );
+      setCityList(response.data);
+    };
+    fetchCities();
+  }, [usState]);
+
+  useEffect(() => {
+    const fetchStreets = async () => {
+      const response = await axios.get<string[]>(
+        `http://localhost:3002/api/theaters/city/${city}`
+      );
+      setStreetList(response.data);
+    };
+    fetchStreets();
+  }, [city]);
+
+  useEffect(() => {
+    const fetchGeolocation = async () => {
+      const response = await axios.get<Geo[]>(
+        `http://localhost:3002/api/theaters/geo/${usState}/${city}/${street}`
+      );
+      setGeolocation(response.data);
+    };
+    fetchGeolocation();
+  }, [usState, city, street]);
+
+  console.log(geolocation);
 
   return (
     <>
@@ -48,19 +70,11 @@ const Theaters = () => {
           }}
         >
           <Box>
-            <StateSelector
-              labels={theaters.map((theater) => theater.location.address.state)}
-            />
-            <CitySelector
-              labels={theaters.map((theater) => theater.location.address.city)}
-            />
-            <StreetSelector
-              labels={theaters.map(
-                (theater) => theater.location.address.street1
-              )}
-            />
-            <SearchButton />
+            <Selector title='State' handler={setUsState} labels={stateList} />
+            <Selector title='City' handler={setCity} labels={cityList} />
+            <Selector title='Street' handler={setStreet} labels={streetList} />
           </Box>
+
           <Map />
         </Box>
       </Container>

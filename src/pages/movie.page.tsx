@@ -1,10 +1,10 @@
 import { Container, Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import getData from '../utils/getData';
 import fixBrokenImageLink from '../utils/fixBrokenImageLink';
 import { useState, useEffect, SyntheticEvent } from 'react';
 import './styles/movie.styles.scss';
 import IMDBRating from '../components/rating.component';
+import axios from 'axios';
 
 type MovieDetails = {
   awards: {
@@ -86,11 +86,11 @@ const Movie = () => {
 
   useEffect(() => {
     const fetchMovie = async () => {
-      const newMovie = await getData<MovieDetails>(
-        'http://localhost:3002/api/movie/' + movieId
+      const response = await axios.get<MovieDetails>(
+        `http://localhost:3002/api/movie/${movieId}`
       );
 
-      setMovie(newMovie);
+      setMovie(response.data);
     };
     fetchMovie();
   }, [movieId]);

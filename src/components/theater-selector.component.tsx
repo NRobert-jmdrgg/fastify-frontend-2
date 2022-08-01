@@ -1,59 +1,30 @@
-import Box from '@mui/material/Box';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 type TheaterSelectorProps = {
+  title: string;
   labels: string[];
+  handler: (stete: string | null) => void;
 };
 
-export function CitySelector({ labels }: TheaterSelectorProps) {
-  labels = [...new Set<string>(labels)];
-  const [city, setCity] = useState<string | null>(labels[0]);
-  return (
-    <Autocomplete
-      disablePortal
-      id='combo-box-demo'
-      options={labels}
-      sx={{ width: 300, marginTop: 5, marginX: 3 }}
-      renderInput={(params) => <TextField {...params} label='city' />}
-      onChange={(event: any, newValue: string | null) => {
-        setCity(newValue);
-      }}
-    />
-  );
-}
+export default function Selector({
+  title,
+  labels,
+  handler,
+}: TheaterSelectorProps) {
+  const [value, setValue] = useState<string | null>(labels[0]);
 
-export function StateSelector({ labels }: TheaterSelectorProps) {
-  labels = [...new Set<string>(labels)];
-  const [state, setState] = useState<string | null>(labels[0]);
+  useEffect(() => handler(value), [value]);
   return (
     <Autocomplete
       disablePortal
       id='combo-box-demo'
       options={labels}
       sx={{ width: 300, marginTop: 5, marginX: 3 }}
-      renderInput={(params) => <TextField {...params} label='state' />}
+      renderInput={(params) => <TextField {...params} label={title} />}
       onChange={(event: any, newValue: string | null) => {
-        setState(newValue);
-      }}
-    />
-  );
-}
-
-export function StreetSelector({ labels }: TheaterSelectorProps) {
-  labels = [...new Set<string>(labels)];
-  const [street, setStreet] = useState<string | null>(labels[0]);
-  return (
-    <Autocomplete
-      disablePortal
-      id='combo-box-demo'
-      options={labels}
-      sx={{ width: 300, marginTop: 5, marginX: 3 }}
-      renderInput={(params) => <TextField {...params} label='street' />}
-      onChange={(event: any, newValue: string | null) => {
-        setStreet(newValue);
+        setValue(newValue);
       }}
     />
   );
