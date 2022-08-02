@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-type MovieProps = {
+export type MovieProps = {
   _id: string;
   runtime: number;
   poster: string;
