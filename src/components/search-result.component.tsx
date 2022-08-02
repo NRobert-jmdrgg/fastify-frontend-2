@@ -1,14 +1,30 @@
 import { Paper } from '@mui/material';
+import { MovieProps } from '../pages/movies.page';
+import fixBrokenImageLink from '../utils/fixBrokenImageLink';
+import { SyntheticEvent } from 'react';
+import './styles/search-result.styles.scss';
 
-const Result = () => {
+type ResultProps = {
+  movie: MovieProps;
+};
+
+const Result = ({ movie }: ResultProps) => {
   return (
     <Paper variant='outlined'>
       <img
-        src='https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg'
-        alt='dog'
-        height={50}
+        className='result-image-poster'
+        src={
+          movie.poster ||
+          'https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584296.jpg'
+        }
+        alt={movie.title}
+        onError={(e: SyntheticEvent<HTMLImageElement, Event>) =>
+          fixBrokenImageLink(e)
+        }
       />
-      <h1>Hello, world</h1>
+      <h1>{movie.title}</h1>
+      <p>{movie.year}</p>
+      <p>{movie.runtime}</p>
     </Paper>
   );
 };

@@ -45,10 +45,12 @@ export default function SearchDialog() {
               variant='contained'
               sx={{ margin: 1 }}
               onClick={async () => {
-                const response = await axios.get<MovieProps[]>(
-                  `http://localhost:3002/api/movies/search/${searchTerm}`
-                );
-                setMovieResuts(response.data);
+                if (searchTerm) {
+                  const response = await axios.get<MovieProps[]>(
+                    `http://localhost:3002/api/movies/search/${searchTerm}`
+                  );
+                  setMovieResuts(response.data);
+                }
               }}
             >
               Search
