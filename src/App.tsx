@@ -8,12 +8,18 @@ import {
   Navigate,
 } from 'react-router-dom';
 import TopBar from './components/top-bar.component';
+import SearchDialog from './components/search-dialog.component';
+import { useContext } from 'react';
+import { SearchContext } from './contexts/search.context';
 
 function App() {
+  const { open } = useContext(SearchContext);
+
   return (
     <>
       <Router>
         <TopBar />
+        {open && <SearchDialog />}
         <Routes>
           <Route path='/' element={<Navigate replace to={'/page/1'} />} />
           <Route path='/page/:num' element={<Movies />} />

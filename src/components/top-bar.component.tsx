@@ -7,10 +7,10 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
 import { styled, alpha } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { useContext } from 'react';
+import { SearchContext } from '../contexts/search.context';
 
 type MenuItem = {
   title: string;
@@ -67,6 +67,8 @@ const ResponsiveAppBar = () => {
     { title: 'theaters', handler: () => navigate('/theaters/') },
   ];
 
+  const { open, setOpen } = useContext(SearchContext);
+
   return (
     <AppBar position='static'>
       <Container maxWidth='xl'>
@@ -101,14 +103,17 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
-          <Search>
+          <Search onClick={() => setOpen(true)}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder='Search…'
               inputProps={{ 'aria-label': 'search' }}
-              onChange={() => {}}
+              onChange={(
+                event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+              ) => setOpen(true)}
+              autoFocus={true}
             />
           </Search>
         </Toolbar>
