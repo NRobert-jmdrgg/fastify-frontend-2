@@ -51,7 +51,7 @@ const MovieCard = ({ props }: movieProps) => {
 
   return (
     <Grid item xs='auto' onClick={routeChange}>
-      <Paper elevation={3}>
+      <Paper elevation={3} sx={{ cursor: 'pointer' }}>
         <img
           className='movie-poster'
           src={

@@ -15,7 +15,7 @@ export default function SearchResults({ results }: SearchResulsProps) {
     >
       <Stack spacing={2}>
         {results.map((result) => {
-          return <Result movie={result} />;
+          return <Result key={result._id} movie={result} />;
         })}
       </Stack>
     </Box>

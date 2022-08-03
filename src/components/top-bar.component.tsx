@@ -6,8 +6,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useContext } from 'react';
 import { SearchContext } from '../contexts/search.context';
@@ -26,7 +24,7 @@ const ResponsiveAppBar = () => {
     { title: 'theaters', handler: () => navigate('/theaters/') },
   ];
 
-  const { open, setOpen } = useContext(SearchContext);
+  const { setOpen } = useContext(SearchContext);
 
   return (
     <AppBar position='static'>
@@ -69,18 +67,6 @@ const ResponsiveAppBar = () => {
           >
             <SearchIcon />
           </IconButton>
-
-          {/* <Search>
-            
-            <StyledInputBase
-              placeholder='Search…'
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={(
-                event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-              ) => setOpen(true)}
-              autoFocus={true}
-            />
-          </Search> */}
         </Toolbar>
       </Container>
     </AppBar>
