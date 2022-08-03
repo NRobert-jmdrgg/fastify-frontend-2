@@ -81,7 +81,6 @@ const defaultValues = {
 
 const Movie = () => {
   let { movieId } = useParams();
-  console.log(movieId);
   const [movie, setMovie] = useState<MovieDetails>(defaultValues);
 
   useEffect(() => {

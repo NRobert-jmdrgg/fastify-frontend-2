@@ -5,6 +5,7 @@ import Map from '../components/map.component';
 import axios from 'axios';
 
 type Geo = {
+  _id: number;
   coordinates: number[];
 };
 
@@ -49,15 +50,14 @@ const Theaters = () => {
 
   useEffect(() => {
     const fetchGeolocation = async () => {
-      const response = await axios.get<Geo[]>(
-        `http://localhost:3002/api/theaters/geo/${usState}/${city}/${street}`
-      );
+      let url = `http://localhost:3002/api/theaters/geo/${usState}/`;
+      if (city) url += `${city}/`;
+      if (street) url += `${street}`;
+      const response = await axios.get<Geo[]>(url);
       setGeolocation(response.data);
     };
     fetchGeolocation();
   }, [usState, city, street]);
-
-  console.log(geolocation);
 
   return (
     <>
