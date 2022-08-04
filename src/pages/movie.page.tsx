@@ -5,6 +5,16 @@ import { useState, useEffect, SyntheticEvent } from 'react';
 import './styles/movie.styles.scss';
 import IMDBRating from '../components/rating.component';
 import axios from 'axios';
+import Comments from '../components/comments.component';
+
+export type Comment = {
+  _id: string;
+  name: string;
+  email: string;
+  text: string;
+  date: Date;
+  movieId: string;
+};
 
 type MovieDetails = {
   awards: {
@@ -82,67 +92,81 @@ const defaultValues = {
 const Movie = () => {
   let { movieId } = useParams();
   const [movie, setMovie] = useState<MovieDetails>(defaultValues);
+  const [commentList, setCommentList] = useState<Comment[]>([]);
 
   useEffect(() => {
     const fetchMovie = async () => {
-      const response = await axios.get<MovieDetails>(
+      const movieResponse = await axios.get<MovieDetails>(
         `http://localhost:3002/api/movie/${movieId}`
       );
 
-      setMovie(response.data);
+      const commentsListResponse = await axios.get<Comment[]>(
+        `http://localhost:3002/api/comments/${movieId}`
+      );
+
+      setMovie(movieResponse.data);
+      setCommentList(commentsListResponse.data);
     };
     fetchMovie();
   }, [movieId]);
 
   return (
-    <Container sx={{ display: 'flex' }}>
-      <Box>
-        <img
-          className='movie-poster-image'
-          src={
-            movie.poster ||
-            'https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584296.jpg'
-          }
-          alt={movie.title}
-          onError={(e: SyntheticEvent<HTMLImageElement, Event>) =>
-            fixBrokenImageLink(e)
-          }
-        />
-        <Typography variant='body2' component='p' textAlign='center'>
-          {movie.year} - {movie.runtime} minutes
+    <>
+      <Container sx={{ display: 'flex' }}>
+        <Box>
+          <img
+            className='movie-poster-image'
+            src={
+              movie.poster ||
+              'https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584296.jpg'
+            }
+            alt={movie.title}
+            onError={(e: SyntheticEvent<HTMLImageElement, Event>) =>
+              fixBrokenImageLink(e)
+            }
+          />
+          <Typography variant='body2' component='p' textAlign='center'>
+            {movie.year} - {movie.runtime} minutes
+          </Typography>
+        </Box>
+        <Box sx={{ marginTop: 2 }}>
+          <Typography variant='h2' component='h1'>
+            {movie.title}
+          </Typography>
+          <Typography variant='body2' component='p'>
+            Rated: {movie.rated} Genres: {movie.genres.join(', ')} Languages:{' '}
+            {movie.languages?.join(', ')}
+          </Typography>
+          <Typography variant='body2' component='p'>
+            Directors: {movie.directors.join(', ')}
+          </Typography>
+          <Typography variant='h6' component='p'>
+            {movie.plot}
+          </Typography>
+          <Typography variant='body1' component='p'>
+            Awards: {movie.awards.text}
+          </Typography>
+          <Typography variant='body1' component='p'>
+            IMDB Rating: {movie.imdb.rating} Votes: {movie.imdb.votes}
+          </Typography>
+          <IMDBRating rating={movie.imdb.rating} />
+          <Typography variant='body1' component='p'>
+            {movie.metacritic !== undefined
+              ? `metacritic score: ${movie.metacritic}`
+              : ''}
+          </Typography>
+          <Typography variant='body1' component='p'>
+            {movie.fullplot}
+          </Typography>
+        </Box>
+      </Container>
+      <Container>
+        <Typography variant='h4' component='h2'>
+          Comments:
         </Typography>
-      </Box>
-      <Box sx={{ marginTop: 2 }}>
-        <Typography variant='h2' component='h1'>
-          {movie.title}
-        </Typography>
-        <Typography variant='body2' component='p'>
-          Rated: {movie.rated} Genres: {movie.genres.join(', ')} Languages:{' '}
-          {movie.languages?.join(', ')}
-        </Typography>
-        <Typography variant='body2' component='p'>
-          Directors: {movie.directors.join(', ')}
-        </Typography>
-        <Typography variant='h6' component='p'>
-          {movie.plot}
-        </Typography>
-        <Typography variant='body1' component='p'>
-          Awards: {movie.awards.text}
-        </Typography>
-        <Typography variant='body1' component='p'>
-          IMDB Rating: {movie.imdb.rating} Votes: {movie.imdb.votes}
-        </Typography>
-        <IMDBRating rating={movie.imdb.rating} />
-        <Typography variant='body1' component='p'>
-          {movie.metacritic !== undefined
-            ? `metacritic score: ${movie.metacritic}`
-            : ''}
-        </Typography>
-        <Typography variant='body1' component='p'>
-          {movie.fullplot}
-        </Typography>
-      </Box>
-    </Container>
+        <Comments comments={commentList} />
+      </Container>
+    </>
   );
 };
 

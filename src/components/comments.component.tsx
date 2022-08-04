@@ -1,12 +1,25 @@
-type CommentProps = {
-  _id: string;
-  name: string;
-  email: string;
-  text: string;
-  date: Date;
-  movieId: string;
+import { Comment } from '../pages/movie.page';
+import { Paper } from '@mui/material';
+
+type CommentsProps = {
+  comments: Comment[];
 };
 
-const Comments = () => {
-  return <div>Hello, from comments</div>;
+const Comments = ({ comments }: CommentsProps) => {
+  return (
+    <>
+      {comments.map((comment) => {
+        return (
+          <Paper>
+            <p>{comment.name}</p>
+            <p>{comment.text}</p>
+            <p>{comment.email}</p>
+            <p>{comment.date.toString()}</p>
+          </Paper>
+        );
+      })}
+    </>
+  );
 };
+
+export default Comments;
